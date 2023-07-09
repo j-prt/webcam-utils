@@ -3,17 +3,19 @@ import os
 import cv2
 from twilio.rest import Client
 
+
 ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
 TWILIO_NUMBER = os.environ['TWILIO_NUMBER']
 TARGET_NUMBER = os.environ['TARGET_NUMBER']
 
+
 MOTION_FRAME = 24
 IMAGE_HEIGHT = 240
 THRESHOLD = 80
 
+# Get the most recent file saved
 contents = os.listdir('.')
-
 
 vid_paths = [path for path in contents if path.endswith('.mp4')]
 vid_path = vid_paths[-1]
@@ -44,7 +46,7 @@ result = np.allclose(
     )
 
 if result == False:
-    # do stuff
+    # Send a text to myself via twilio
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
     message = client.messages.create(
