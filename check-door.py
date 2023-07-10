@@ -4,20 +4,22 @@ import cv2
 from twilio.rest import Client
 
 
-ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
-AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+ACCOUNT_SID = os.environ['ACCOUNT_SID']
+AUTH_TOKEN = os.environ['AUTH_TOKEN']
 TWILIO_NUMBER = os.environ['TWILIO_NUMBER']
 TARGET_NUMBER = os.environ['TARGET_NUMBER']
 
+MOTION_DIR = '/var/lib/motion/'
 
 MOTION_FRAME = 24
 IMAGE_HEIGHT = 240
 THRESHOLD = 80
 
 # Get the most recent file saved
-contents = os.listdir('.')
+contents = os.listdir(MOTION_DIR)
 
-vid_paths = [path for path in contents if path.endswith('.mp4')]
+vid_paths = [MOTION_DIR+path for path in contents if path.endswith('.mp4')]
+vid_paths.sort(key=lambda x: x.split('-')[2])
 vid_path = vid_paths[-1]
 vidcap = cv2.VideoCapture(vid_path)
 
